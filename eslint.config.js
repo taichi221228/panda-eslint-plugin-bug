@@ -3,7 +3,6 @@ import createGitignoreConfig from "eslint-config-flat-gitignore";
 import globals from "globals";
 import { config as defineConfig, configs } from "typescript-eslint";
 
-import { nodeConfigs } from "./eslint.config.node.js";
 import { pandaConfigs } from "./eslint.config.panda.js";
 import { reactConfigs } from "./eslint.config.react.js";
 
@@ -42,7 +41,6 @@ export default defineConfig(
 	jsConfig,
 	...tsConfigs,
 	basicConfig,
-	...nodeConfigs,
 	...reactConfigs,
 	...pandaConfigs,
 );
