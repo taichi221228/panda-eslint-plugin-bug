@@ -1,28 +1,48 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import eslint from "@eslint/js";
+import createGitignoreConfig from "eslint-config-flat-gitignore";
+import globals from "globals";
+import { config as defineConfig, configs } from "typescript-eslint";
 
-export default tseslint.config(
-  { ignores: ['dist'] },
-  {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-    },
-  },
-)
+import { nodeConfigs } from "./eslint.config.node.js";
+import { pandaConfigs } from "./eslint.config.panda.js";
+import { reactConfigs } from "./eslint.config.react.js";
+
+const ignoreConfig = createGitignoreConfig();
+
+/** @type import("eslint").Linter.Config */
+const jsConfig = {
+	...eslint.configs.recommended,
+	rules: { "no-unused-vars": ["error", { argsIgnorePattern: "^_" }] },
+};
+
+/** @type import("typescript-eslint").ConfigWithExtends[] */
+const tsConfigs = [
+	...configs.recommended,
+	{
+		rules: {
+			"@typescript-eslint/no-unused-vars": [
+				"error",
+				{ argsIgnorePattern: "^_" },
+			],
+		},
+	},
+];
+
+const basicConfig = {
+	languageOptions: {
+		globals: { ...globals.browser, ...globals.commonjs },
+		ecmaVersion: "latest",
+		sourceType: "module",
+		parserOptions: { ecmaFeatures: { jsx: true } },
+	},
+};
+
+export default defineConfig(
+	ignoreConfig,
+	jsConfig,
+	...tsConfigs,
+	basicConfig,
+	...nodeConfigs,
+	...reactConfigs,
+	...pandaConfigs,
+);
