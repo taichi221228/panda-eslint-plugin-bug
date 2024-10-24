@@ -15,4 +15,12 @@ export const reactConfigs = [
 		rules: { "react-refresh/only-export-components": "warn" },
 	},
 	jsxA11yPlugin.flatConfigs.recommended,
+	{
+		files: ["**/*.{js,jsx,ts,tsx}"],
+		settings: {
+			react: { version: "detect" },
+			"import/resolver": { typescript: {} },
+		},
+	},
+
 ];
