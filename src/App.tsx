@@ -2,6 +2,10 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { css } from "../styled-system/css";
+
+// NOTE: This is for the `@pandacss/eslint-plugin` test
+css({ debug: true });
 
 function App() {
   const [count, setCount] = useState(0)
